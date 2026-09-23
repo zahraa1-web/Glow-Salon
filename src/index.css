@@ -1,5 +1,19 @@
-@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;6..96,500;6..96,600;6..96,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&family=Manrope:wght@300;400;500;600;700;800&display=swap");
+
 @import "tailwindcss";
+
+:root {
+  --glow-espresso: #302720;
+  --glow-dark: #17120f;
+  --glow-coffee: #594331;
+  --glow-gold: #a78350;
+  --glow-caramel: #c5a477;
+  --glow-champagne: #dfcba9;
+  --glow-cream: #f2e8d8;
+  --glow-ivory: #faf6ef;
+  --glow-sand: #e9dcc8;
+  --glow-rose: #d8b9a9;
+}
 
 html {
   scroll-behavior: smooth;
@@ -7,19 +21,15 @@ html {
 
 body {
   margin: 0;
-  background: #f5f0e7;
-  color: #302720;
-  font-family: "DM Sans", sans-serif;
+  background: var(--glow-ivory);
+  color: var(--glow-espresso);
+  font-family: "Manrope", sans-serif;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
 
-.font-serif {
-  font-family: "Playfair Display", serif;
-}
-
-::selection {
-  background: #8a724c;
-  color: #f5f0e7;
+* {
+  box-sizing: border-box;
 }
 
 img {
@@ -29,4 +39,79 @@ img {
 button,
 a {
   -webkit-tap-highlight-color: transparent;
+}
+
+button {
+  font-family: inherit;
+}
+
+.font-display {
+  font-family: "Bodoni Moda", serif;
+}
+
+.font-serif {
+  font-family: "Cormorant Garamond", serif;
+}
+
+::selection {
+  background: var(--glow-gold);
+  color: var(--glow-ivory);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--glow-ivory);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--glow-gold);
+  border-radius: 20px;
+}
+
+.glow-outline {
+  outline: 1px solid rgba(48, 39, 32, 0.12);
+  outline-offset: -1px;
+}
+
+.glow-hover {
+  transition:
+    transform 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.glow-hover:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 30px 80px rgba(48, 39, 32, 0.14);
+}
+
+@keyframes glowMarquee {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.glow-marquee {
+  animation: glowMarquee 28s linear infinite;
+}
+
+@keyframes glowFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+.glow-float {
+  animation: glowFloat 5s ease-in-out infinite;
 }
