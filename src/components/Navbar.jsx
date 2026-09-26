@@ -19,24 +19,26 @@ const Navbar = () => {
   const links = [
     { name: "Home", path: "/" },
     { name: "About Us", path: "/about" },
-    { name: "Salons", path: "/services" },
+    { name: "Services", path: "/services" },
     { name: "Bookings", path: "/bookings" },
   ];
 
   return (
-    <header className="fixed left-0 right-0 top-0 z-50 px-3 pt-3 sm:px-5 md:px-6 md:pt-4">
+    <header className="fixed left-0 right-0 top-0 z-50 w-full">
       <nav
-        className={`mx-auto w-full max-w-[1700px] overflow-hidden border-2 transition-all duration-500 ${
+        className={`w-full border-b-2 transition-all duration-500 ${
           darkMode
             ? "border-[#dfcba9]/40 bg-[#17120f]/95 text-[#faf6ef]"
             : "border-[#302720]/25 bg-[#faf6ef]/97 text-[#302720]"
         }`}
       >
-        <div className="flex min-h-[82px] items-stretch">
+        {/* MAIN NAVBAR */}
+        <div className="flex min-h-[82px] w-full items-stretch">
+          {/* LOGO */}
           <Link
             to="/"
             onClick={() => setMenuOpen(false)}
-            className="flex shrink-0 items-center border-r-2 border-current/10 px-4 sm:px-6 md:px-7"
+            className="flex shrink-0 items-center border-r-2 border-current/10 px-5 sm:px-7 md:px-9 lg:px-10"
           >
             <div>
               <div className="font-display text-4xl font-bold leading-none tracking-[-0.07em] sm:text-5xl md:text-[52px]">
@@ -49,13 +51,14 @@ const Navbar = () => {
             </div>
           </Link>
 
+          {/* DESKTOP LINKS */}
           <div className="hidden flex-1 items-stretch md:flex">
             {links.map((link, index) => (
               <NavLink
                 key={link.path}
                 to={link.path}
                 className={({ isActive }) =>
-                  `group relative flex min-w-0 flex-1 items-center justify-center border-r border-current/10 px-2 text-[13px] font-extrabold uppercase tracking-[0.08em] transition lg:text-[14px] xl:text-[15px] ${
+                  `group relative flex min-w-0 flex-1 items-center justify-center border-r border-current/10 px-2 text-[12px] font-extrabold uppercase tracking-[0.08em] transition lg:text-[13px] xl:text-[14px] ${
                     isActive
                       ? darkMode
                         ? "bg-[#dfcba9]/10 text-[#dfcba9]"
@@ -75,10 +78,13 @@ const Navbar = () => {
             ))}
           </div>
 
+          {/* DESKTOP CONTROLS */}
           <div className="hidden items-stretch xl:flex">
             <button
               onClick={() =>
-                setLanguage((current) => (current === "EN" ? "AR" : "EN"))
+                setLanguage((current) =>
+                  current === "EN" ? "AR" : "EN"
+                )
               }
               className="flex w-[72px] items-center justify-center gap-2 border-r border-current/10 text-[11px] font-extrabold uppercase tracking-[0.1em] transition hover:bg-[#e9dcc8]/50"
             >
@@ -87,10 +93,14 @@ const Navbar = () => {
             </button>
 
             <button
-              onClick={() => setDarkMode((current) => !current)}
+              onClick={() =>
+                setDarkMode((current) => !current)
+              }
               className="flex w-[54px] items-center justify-center border-r border-current/10 text-base transition hover:bg-[#e9dcc8]/50"
             >
-              <FontAwesomeIcon icon={darkMode ? faSun : faMoon} />
+              <FontAwesomeIcon
+                icon={darkMode ? faSun : faMoon}
+              />
             </button>
 
             <Link
@@ -113,15 +123,7 @@ const Navbar = () => {
             </Link>
           </div>
 
-          <div className="ml-auto flex md:hidden">
-            <button
-              onClick={() => setMenuOpen((current) => !current)}
-              className="flex w-[62px] items-center justify-center border-l border-current/10 text-xl"
-            >
-              <FontAwesomeIcon icon={menuOpen ? faXmark : faBars} />
-            </button>
-          </div>
-
+          {/* TABLET CONTROLS */}
           <div className="ml-auto hidden items-center md:flex xl:hidden">
             <Link
               to="/profile"
@@ -131,15 +133,34 @@ const Navbar = () => {
             </Link>
 
             <button
-              onClick={() => setMenuOpen((current) => !current)}
+              onClick={() =>
+                setMenuOpen((current) => !current)
+              }
               className="flex h-full w-[58px] items-center justify-center border-l border-current/10 text-lg"
             >
-              <FontAwesomeIcon icon={menuOpen ? faXmark : faBars} />
+              <FontAwesomeIcon
+                icon={menuOpen ? faXmark : faBars}
+              />
+            </button>
+          </div>
+
+          {/* MOBILE MENU BUTTON */}
+          <div className="ml-auto flex md:hidden">
+            <button
+              onClick={() =>
+                setMenuOpen((current) => !current)
+              }
+              className="flex w-[64px] items-center justify-center border-l border-current/10 text-xl"
+            >
+              <FontAwesomeIcon
+                icon={menuOpen ? faXmark : faBars}
+              />
             </button>
           </div>
         </div>
 
-        <div className="flex h-8 items-center justify-between border-t border-current/15 px-3 sm:px-4">
+        {/* BOTTOM EDITORIAL STRIP */}
+        <div className="flex h-8 w-full items-center justify-between border-t border-current/15 px-4 sm:px-6">
           <span className="text-[8px] font-extrabold uppercase tracking-[0.18em] sm:text-[9px]">
             The Beauty Edition
           </span>
@@ -154,9 +175,10 @@ const Navbar = () => {
         </div>
       </nav>
 
+      {/* MOBILE / TABLET DROPDOWN */}
       {menuOpen && (
         <div
-          className={`mx-auto mt-2 w-full max-w-[1700px] border-2 ${
+          className={`w-full border-b-2 ${
             darkMode
               ? "border-[#dfcba9]/40 bg-[#17120f]"
               : "border-[#302720]/25 bg-[#faf6ef]"
@@ -187,19 +209,29 @@ const Navbar = () => {
             <div className="mt-5 grid grid-cols-3 border border-current/10">
               <button
                 onClick={() =>
-                  setLanguage((current) => (current === "EN" ? "AR" : "EN"))
+                  setLanguage((current) =>
+                    current === "EN" ? "AR" : "EN"
+                  )
                 }
                 className="border-r border-current/10 py-5 text-sm font-extrabold"
               >
-                <FontAwesomeIcon icon={faGlobe} className="mr-2" />
+                <FontAwesomeIcon
+                  icon={faGlobe}
+                  className="mr-2"
+                />
+
                 {language}
               </button>
 
               <button
-                onClick={() => setDarkMode((current) => !current)}
+                onClick={() =>
+                  setDarkMode((current) => !current)
+                }
                 className="border-r border-current/10 py-5"
               >
-                <FontAwesomeIcon icon={darkMode ? faSun : faMoon} />
+                <FontAwesomeIcon
+                  icon={darkMode ? faSun : faMoon}
+                />
               </button>
 
               <Link
@@ -214,9 +246,14 @@ const Navbar = () => {
             <Link
               to="/login"
               onClick={() => setMenuOpen(false)}
-              className="mt-4 flex items-center justify-center gap-3 bg-[#302720] py-6 text-xs font-extrabold uppercase tracking-[0.18em] text-[#faf6ef]"
+              className={`mt-4 flex items-center justify-center gap-3 py-6 text-xs font-extrabold uppercase tracking-[0.18em] ${
+                darkMode
+                  ? "bg-[#dfcba9] text-[#302720]"
+                  : "bg-[#302720] text-[#faf6ef]"
+              }`}
             >
               Enter GLOW
+
               <FontAwesomeIcon icon={faArrowRight} />
             </Link>
           </div>
