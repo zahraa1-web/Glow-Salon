@@ -148,349 +148,304 @@ const Services = () => {
   }, []);
 
   const createServiceLink = (service) => {
-    const serviceSlug = service.toLowerCase().replace(/\s+/g, "-");
+    const serviceSlug = service
+      .toLowerCase()
+      .trim()
+      .replace(/&/g, "and")
+      .replace(/\s+/g, "-");
 
     return `/bookings?service=${encodeURIComponent(serviceSlug)}`;
   };
 
   return (
-    <main className="overflow-hidden bg-[#f7f1e6] text-[#302720]">
+    <main className="min-h-screen overflow-hidden bg-[#f7f1e6] text-[#302720]">
       {/* HERO */}
-      <section className="relative min-h-[88vh] overflow-hidden border-b border-[#302720]/20 bg-[#302720]">
-        <motion.img
-          initial={{ scale: 1.12 }}
-          animate={{ scale: 1 }}
-          transition={{
-            duration: 2,
-            ease: [0.22, 1, 0.36, 1],
-          }}
-          src="/images/makeup-export.jpg"
-          alt="GLOW beauty services"
-          className="absolute inset-0 h-full w-full object-cover"
-        />
-
-        <div className="absolute inset-0 bg-[#17120f]/65" />
-
-        <div className="absolute inset-0 bg-gradient-to-t from-[#17120f] via-transparent to-[#17120f]/30" />
-
-        <div className="relative z-10 flex min-h-[88vh] flex-col justify-between px-5 pb-10 pt-40 md:px-10 lg:px-16">
-          <div className="flex items-start justify-between text-[#f7f1e6]">
+      <section className="border-b border-[#302720]/15 px-5 pb-20 pt-36 sm:px-8 lg:px-12 xl:px-16">
+        <div className="mx-auto max-w-[1700px]">
+          <div className="grid gap-10 lg:grid-cols-[1fr_0.45fr] lg:items-end">
             <div>
-              <p className="text-[10px] font-extrabold uppercase tracking-[0.35em]">
-                GLOW Services
-              </p>
+              <div className="mb-7 flex items-center gap-4">
+                <span className="h-px w-12 bg-[#8a6a43]" />
 
-              <p className="mt-2 text-[9px] font-bold uppercase tracking-[0.25em] text-[#dfcba9]">
-                Feature · 002
+                <span className="text-[10px] font-extrabold uppercase tracking-[0.25em] text-[#8a6a43]">
+                  GLOW · Beauty Services
+                </span>
+              </div>
+
+              <motion.h1
+                initial={{ opacity: 0, y: 35 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7 }}
+                className="font-display text-[17vw] font-semibold leading-[0.78] tracking-[-0.075em] sm:text-[14vw] lg:text-[10vw]"
+              >
+                SERVICES
+              </motion.h1>
+
+              <p className="mt-8 max-w-2xl text-base leading-7 text-[#302720]/65 sm:text-lg">
+                Explore beauty services from trusted salons across
+                Basra. Choose what you need, discover the right
+                specialist and continue to your appointment.
               </p>
             </div>
 
-            <div className="text-right">
-              <p className="font-display text-3xl">
+            <div className="lg:text-right">
+              <span className="font-display text-7xl font-semibold text-[#8a6a43]">
                 08
-              </p>
+              </span>
 
-              <p className="text-[8px] font-bold uppercase tracking-[0.3em] text-white/60">
+              <p className="mt-2 text-[9px] font-extrabold uppercase tracking-[0.22em] text-[#302720]/45">
                 Beauty categories
               </p>
             </div>
           </div>
-
-          <div className="mx-auto w-full max-w-[1750px]">
-            <div className="mb-7 flex items-center gap-4">
-              <span className="h-px w-16 bg-[#dfcba9]" />
-
-              <span className="text-[9px] font-extrabold uppercase tracking-[0.35em] text-[#dfcba9]">
-                The beauty catalogue
-              </span>
-            </div>
-
-            <motion.h1
-              initial={{ opacity: 0, y: 80 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                duration: 1,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-              className="font-display text-[clamp(5rem,15vw,16rem)] font-semibold leading-[0.62] tracking-[-0.1em] text-[#f7f1e6]"
-            >
-              SERVICES
-            </motion.h1>
-
-            <div className="mt-9 grid gap-8 border-t border-white/25 pt-6 md:grid-cols-12 md:items-end">
-              <p className="font-serif text-3xl font-medium leading-[1.02] text-white/85 md:col-span-8 md:text-4xl lg:text-5xl">
-                Find the treatment,
-                <br />
-
-                <span className="italic text-[#dfcba9]">
-                  find your GLOW.
-                </span>
-              </p>
-
-              <div className="flex items-center gap-3 text-white/60 md:col-span-4 md:justify-end">
-                <FontAwesomeIcon icon={faArrowDown} />
-
-                <span className="text-[9px] font-bold uppercase tracking-[0.3em]">
-                  Explore services
-                </span>
-              </div>
-            </div>
-          </div>
         </div>
       </section>
 
-      {/* INTRO */}
-      <section className="border-b border-[#302720]/15 px-5 py-24 md:px-10 md:py-32 lg:px-16">
-        <div className="mx-auto max-w-[1750px]">
-          <div className="grid gap-14 lg:grid-cols-12">
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.9 }}
-              className="lg:col-span-3"
-            >
-              <p className="text-[10px] font-extrabold uppercase tracking-[0.3em] text-[#8a6a43]">
-                01 — Choose your category
-              </p>
+      {/* INTRO STRIP */}
+      <section className="border-b border-[#302720]/15 px-5 py-8 sm:px-8 lg:px-12 xl:px-16">
+        <div className="mx-auto flex max-w-[1700px] flex-col justify-between gap-5 sm:flex-row sm:items-center">
+          <div className="flex items-center gap-4">
+            <span className="font-display text-sm text-[#8a6a43]">
+              01
+            </span>
 
-              <div className="mt-9 border-t border-[#302720]/20 pt-5">
-                <span className="font-display text-5xl italic">
-                  G
-                </span>
-
-                <p className="mt-3 text-[9px] font-bold uppercase tracking-[0.25em] text-[#302720]/50">
-                  GLOW Beauty Gazette
-                </p>
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.9 }}
-              className="lg:col-span-9"
-            >
-              <h2 className="font-display text-[clamp(3.8rem,8vw,9rem)] font-semibold leading-[0.68] tracking-[-0.08em]">
-                BEAUTY
-                <br />
-
-                <span className="ml-[8%] italic text-[#a78350]">
-                  YOUR WAY.
-                </span>
-              </h2>
-
-              <p className="mt-12 max-w-4xl font-serif text-3xl font-medium leading-[1.05] md:text-4xl">
-                Explore services offered by beauty destinations across Basra,
-                then choose the experience that feels right for you.
-              </p>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* CATALOGUE */}
-      <section className="bg-[#e9dcc8] px-5 py-24 md:px-10 md:py-32 lg:px-16">
-        <div className="mx-auto max-w-[1750px]">
-          <div className="mb-14 flex flex-col justify-between gap-7 md:flex-row md:items-end">
-            <div>
-              <p className="text-[10px] font-extrabold uppercase tracking-[0.3em] text-[#8a6a43]">
-                02 — The catalogue
-              </p>
-
-              <h2 className="mt-8 font-display text-[clamp(4rem,8vw,9rem)] font-semibold leading-[0.67] tracking-[-0.08em]">
-                WHAT ARE
-                <br />
-
-                <span className="italic text-[#8a6a43]">
-                  YOU LOOKING FOR?
-                </span>
-              </h2>
-            </div>
-
-            <p className="max-w-md font-serif text-2xl font-medium leading-tight md:text-3xl">
-              Choose a category to reveal the services inside.
+            <p className="text-[10px] font-extrabold uppercase tracking-[0.18em]">
+              Explore a category
             </p>
           </div>
 
-          <div className="border-t border-[#302720]/25">
+          <p className="max-w-xl text-xs leading-5 text-[#302720]/50 sm:text-right">
+            Tap a category to reveal available services, then choose
+            the exact treatment you want.
+          </p>
+        </div>
+      </section>
+
+      {/* SERVICES */}
+      <section className="px-5 py-16 sm:px-8 lg:px-12 xl:px-16">
+        <div className="mx-auto max-w-[1700px]">
+          <div className="grid border-t border-[#302720]/15 md:grid-cols-2">
             {services.map((service, index) => {
               const isOpen = openService === index;
 
               return (
-                <motion.div
+                <motion.article
                   key={service.number}
-                  initial={{ opacity: 0, y: 35 }}
+                  initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.1 }}
+                  viewport={{ once: true, amount: 0.15 }}
                   transition={{
-                    duration: 0.7,
+                    duration: 0.55,
                     delay: index * 0.04,
                   }}
-                  className="border-b border-[#302720]/25"
+                  className={`group border-b border-[#302720]/15 p-4 sm:p-6 ${
+                    index % 2 === 0
+                      ? "md:border-r md:border-[#302720]/15"
+                      : ""
+                  }`}
                 >
+                  {/* CARD */}
+                  <div className="bg-[#e9dcc8]/45 p-2">
+                    {/* IMAGE */}
+                    <div className="relative aspect-[16/10] overflow-hidden">
+                      <img
+                        src={service.image}
+                        alt={service.title}
+                        className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
+                      />
+
+                      <div className="absolute left-4 top-4 flex h-10 w-10 items-center justify-center bg-[#f7f1e6]">
+                        <FontAwesomeIcon
+                          icon={service.icon}
+                          className="text-sm text-[#8a6a43]"
+                        />
+                      </div>
+
+                      <div className="absolute bottom-4 left-4 bg-[#302720] px-3 py-2 text-[8px] font-extrabold uppercase tracking-[0.15em] text-[#f7f1e6]">
+                        {service.number}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* TITLE AREA */}
                   <button
                     type="button"
                     onClick={() =>
                       setOpenService(isOpen ? null : index)
                     }
-                    className="group flex w-full items-center gap-5 py-7 text-left md:py-9"
+                    className="mt-5 w-full text-left"
                   >
-                    <span className="w-10 shrink-0 font-display text-2xl font-semibold text-[#8a6a43] md:w-16 md:text-3xl">
-                      {service.number}
-                    </span>
+                    <div className="flex items-center justify-between gap-5">
+                      <div>
+                        <h2 className="font-display text-3xl font-semibold tracking-[-0.04em] sm:text-4xl">
+                          {service.title}
+                        </h2>
 
-                    <span className="flex h-12 w-12 shrink-0 items-center justify-center border border-[#302720]/20 bg-[#f7f1e6] text-[#8a6a43] transition duration-500 group-hover:bg-[#302720] group-hover:text-[#dfcba9] md:h-14 md:w-14">
-                      <FontAwesomeIcon icon={service.icon} />
-                    </span>
+                        <p className="mt-2 max-w-md text-sm leading-6 text-[#302720]/55">
+                          {service.subtitle}
+                        </p>
+                      </div>
 
-                    <span className="min-w-0 flex-1">
-                      <span className="block font-display text-3xl font-semibold leading-none md:text-5xl">
-                        {service.title}
+                      {/* SEPARATE PLUS AREA */}
+                      <span
+                        className={`flex h-12 w-12 shrink-0 items-center justify-center border transition duration-300 ${
+                          isOpen
+                            ? "border-[#302720] bg-[#302720] text-[#f7f1e6]"
+                            : "border-[#302720]/20 bg-[#f7f1e6] text-[#302720] group-hover:border-[#8a6a43] group-hover:text-[#8a6a43]"
+                        }`}
+                      >
+                        <FontAwesomeIcon
+                          icon={isOpen ? faMinus : faPlus}
+                          className="text-xs"
+                        />
                       </span>
-
-                      <span className="mt-2 block text-xs font-semibold text-[#302720]/50 md:text-sm">
-                        {service.subtitle}
-                      </span>
-                    </span>
-
-                    <span className="flex h-10 w-10 shrink-0 items-center justify-center border border-[#302720]/20">
-                      <FontAwesomeIcon
-                        icon={isOpen ? faMinus : faPlus}
-                        className="text-xs"
-                      />
-                    </span>
+                    </div>
                   </button>
 
+                  {/* SERVICE LIST */}
                   <AnimatePresence initial={false}>
                     {isOpen && (
                       <motion.div
                         initial={{
-                          height: 0,
                           opacity: 0,
+                          height: 0,
                         }}
                         animate={{
-                          height: "auto",
                           opacity: 1,
+                          height: "auto",
                         }}
                         exit={{
-                          height: 0,
                           opacity: 0,
+                          height: 0,
                         }}
-                        transition={{
-                          duration: 0.5,
-                          ease: [0.22, 1, 0.36, 1],
-                        }}
+                        transition={{ duration: 0.3 }}
                         className="overflow-hidden"
                       >
-                        <div className="grid gap-8 pb-9 md:grid-cols-12 md:gap-12">
-                          <div className="md:col-span-5">
-                            <div className="relative overflow-hidden border border-[#302720]/20 p-2">
-                              <motion.img
-                                initial={{ scale: 1.08 }}
-                                animate={{ scale: 1 }}
-                                transition={{ duration: 0.8 }}
-                                src={service.image}
-                                alt={service.title}
-                                className="h-[300px] w-full object-cover md:h-[360px]"
-                              />
+                        <div className="mt-6 border-t border-[#302720]/10 pt-3">
+                          {service.items.map(
+                            (item, itemIndex) => (
+                              <Link
+                                key={item}
+                                to={createServiceLink(item)}
+                                className="group/service flex items-center justify-between border-b border-[#302720]/10 py-4 transition hover:px-2"
+                              >
+                                <div className="flex items-center gap-4">
+                                  <span className="font-display text-xs text-[#8a6a43]">
+                                    {String(
+                                      itemIndex + 1
+                                    ).padStart(2, "0")}
+                                  </span>
 
-                              <div className="absolute bottom-5 left-5 border border-white/30 bg-[#302720]/85 px-4 py-3 text-[#f7f1e6] backdrop-blur-sm">
-                                <p className="text-[9px] font-extrabold uppercase tracking-[0.25em]">
-                                  GLOW · {service.number}
-                                </p>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div className="md:col-span-7">
-                            <p className="text-[9px] font-extrabold uppercase tracking-[0.3em] text-[#8a6a43]">
-                              Available services
-                            </p>
-
-                            <div className="mt-6 grid gap-0 border-y border-[#302720]/20 md:grid-cols-2">
-                              {service.items.map((item, itemIndex) => (
-                                <div
-                                  key={item}
-                                  className="flex items-center justify-between border-b border-[#302720]/15 py-5 last:border-b-0 md:nth-[odd]:border-r md:nth-last-[2]:border-b-0"
-                                >
-                                  <div className="flex items-center gap-3">
-                                    <span className="font-display text-sm text-[#8a6a43]">
-                                      {String(itemIndex + 1).padStart(2, "0")}
-                                    </span>
-
-                                    <span className="text-sm font-bold">
-                                      {item}
-                                    </span>
-                                  </div>
-
-                                  <FontAwesomeIcon
-                                    icon={faArrowRight}
-                                    className="text-xs text-[#a78350]"
-                                  />
+                                  <span className="text-sm font-semibold">
+                                    {item}
+                                  </span>
                                 </div>
-                              ))}
-                            </div>
 
-                            <Link
-                              to={createServiceLink(service.items[0])}
-                              className="mt-7 inline-flex items-center gap-4 bg-[#302720] px-6 py-4 text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#f7f1e6] transition duration-500 hover:-translate-y-1 hover:bg-[#8a6a43]"
-                            >
-                              Book this service
-
-                              <FontAwesomeIcon icon={faArrowRight} />
-                            </Link>
-                          </div>
+                                <FontAwesomeIcon
+                                  icon={faArrowRight}
+                                  className="text-xs text-[#8a6a43] opacity-0 transition duration-300 group-hover/service:translate-x-1 group-hover/service:opacity-100"
+                                />
+                              </Link>
+                            )
+                          )}
                         </div>
                       </motion.div>
                     )}
                   </AnimatePresence>
-                </motion.div>
+                </motion.article>
               );
             })}
           </div>
         </div>
       </section>
 
-      {/* BOOKING CTA */}
-      <section className="bg-[#17120f] px-5 py-24 text-[#f7f1e6] md:px-10 md:py-32 lg:px-16">
-        <div className="mx-auto max-w-[1750px]">
-          <div className="grid gap-12 lg:grid-cols-12 lg:items-end">
-            <div className="lg:col-span-8">
-              <p className="text-[10px] font-extrabold uppercase tracking-[0.3em] text-[#dfcba9]">
-                03 — Your next step
-              </p>
+      {/* HOW IT WORKS */}
+      <section className="border-y border-[#302720]/15 bg-[#e9dcc8]/35 px-5 py-20 sm:px-8 lg:px-12 xl:px-16">
+        <div className="mx-auto max-w-[1700px]">
+          <div className="grid gap-12 lg:grid-cols-[0.7fr_1fr]">
+            <div>
+              <span className="text-[9px] font-extrabold uppercase tracking-[0.2em] text-[#8a6a43]">
+                02 · Simple by design
+              </span>
 
-              <h2 className="mt-9 font-display text-[clamp(4rem,9vw,10rem)] font-semibold leading-[0.65] tracking-[-0.08em]">
-                READY TO
+              <h2 className="mt-4 max-w-lg font-display text-5xl font-semibold leading-[0.9] tracking-[-0.05em] sm:text-6xl">
+                From service
                 <br />
-
-                <span className="italic text-[#dfcba9]">
-                  BOOK?
-                </span>
+                to appointment.
               </h2>
-
-              <p className="mt-10 max-w-2xl font-serif text-3xl leading-[1.05] text-white/65 md:text-4xl">
-                Find a salon, choose a service and make your next beauty
-                appointment through GLOW.
-              </p>
             </div>
 
-            <div className="lg:col-span-4 lg:flex lg:justify-end">
-              <Link
-                to="/bookings"
-                className="group flex w-fit items-center gap-4 border border-[#dfcba9] bg-[#dfcba9] px-7 py-5 text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#302720] transition duration-500 hover:-translate-y-2 hover:bg-transparent hover:text-[#dfcba9]"
-              >
-                Start booking
+            <div className="border-t border-[#302720]/15">
+              {[
+                {
+                  number: "01",
+                  title: "Choose a service",
+                  text: "Find the beauty treatment that matches what you need.",
+                },
+                {
+                  number: "02",
+                  title: "Explore salons",
+                  text: "Compare salons, specialists, ratings and available services.",
+                },
+                {
+                  number: "03",
+                  title: "Pick your time",
+                  text: "Choose an available date and time that works for you.",
+                },
+                {
+                  number: "04",
+                  title: "Book with confidence",
+                  text: "Confirm your appointment and manage it from your account.",
+                },
+              ].map((step) => (
+                <div
+                  key={step.number}
+                  className="grid gap-4 border-b border-[#302720]/15 py-6 sm:grid-cols-[60px_0.7fr_1fr]"
+                >
+                  <span className="font-display text-sm text-[#8a6a43]">
+                    {step.number}
+                  </span>
 
-                <FontAwesomeIcon
-                  icon={faArrowRight}
-                  className="transition group-hover:translate-x-1"
-                />
-              </Link>
+                  <h3 className="font-display text-2xl font-semibold">
+                    {step.title}
+                  </h3>
+
+                  <p className="text-sm leading-6 text-[#302720]/55">
+                    {step.text}
+                  </p>
+                </div>
+              ))}
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="bg-[#302720] px-5 py-20 text-[#f7f1e6] sm:px-8 lg:px-12 xl:px-16">
+        <div className="mx-auto flex max-w-[1700px] flex-col justify-between gap-10 lg:flex-row lg:items-end">
+          <div>
+            <span className="text-[9px] font-extrabold uppercase tracking-[0.22em] text-[#dfcba9]">
+              Your next appointment
+            </span>
+
+            <h2 className="mt-4 max-w-3xl font-display text-5xl font-semibold leading-[0.9] tracking-[-0.05em] sm:text-7xl">
+              Find the service
+              <br />
+              that feels like you.
+            </h2>
+          </div>
+
+          <Link
+            to="/bookings"
+            className="group flex w-fit items-center gap-5 bg-[#f7f1e6] px-7 py-5 text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#302720] transition hover:bg-[#dfcba9]"
+          >
+            Start Booking
+
+            <FontAwesomeIcon
+              icon={faArrowRight}
+              className="transition-transform duration-300 group-hover:translate-x-1"
+            />
+          </Link>
         </div>
       </section>
     </main>

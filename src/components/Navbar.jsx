@@ -4,263 +4,202 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBars,
   faXmark,
-  faMoon,
-  faSun,
-  faGlobe,
-  faUser,
   faArrowRight,
+  faUser,
+  faCalendarCheck,
+  faStore,
+  faScissors,
 } from "@fortawesome/free-solid-svg-icons";
 
-const Navbar = () => {
-  const [darkMode, setDarkMode] = useState(false);
-  const [language, setLanguage] = useState("EN");
+const navItems = [
+  { label: "Home", to: "/" },
+  { label: "Salons", to: "/salons" },
+  { label: "Services", to: "/services" },
+  { label: "Bookings", to: "/bookings" },
+  { label: "About", to: "/about" },
+];
+
+function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const links = [
-    { name: "Home", path: "/" },
-    { name: "About Us", path: "/about" },
-    { name: "Services", path: "/services" },
-    { name: "Bookings", path: "/bookings" },
-  ];
+  const closeMenu = () => {
+    setMenuOpen(false);
+  };
 
   return (
-    <header className="fixed left-0 right-0 top-0 z-50 w-full">
-      <nav
-        className={`w-full border-b-2 transition-all duration-500 ${
-          darkMode
-            ? "border-[#dfcba9]/40 bg-[#17120f]/95 text-[#faf6ef]"
-            : "border-[#302720]/25 bg-[#faf6ef]/97 text-[#302720]"
-        }`}
-      >
-        {/* MAIN NAVBAR */}
-        <div className="flex min-h-[82px] w-full items-stretch">
-          {/* LOGO */}
-          <Link
-            to="/"
-            onClick={() => setMenuOpen(false)}
-            className="flex shrink-0 items-center border-r-2 border-current/10 px-5 sm:px-7 md:px-9 lg:px-10"
-          >
-            <div>
-              <div className="font-display text-4xl font-bold leading-none tracking-[-0.07em] sm:text-5xl md:text-[52px]">
-                GLOW
-              </div>
+    <header className="sticky top-0 z-50 px-3 pt-3 sm:px-5 lg:px-7">
+      <div className="mx-auto max-w-[1580px]">
+        <div className="overflow-hidden rounded-[20px] border border-[#302720]/15 bg-[#e8dece]/72 shadow-[0_14px_50px_rgba(48,39,32,0.12)] backdrop-blur-[24px]">
 
-              <div className="mt-1 hidden text-[9px] font-extrabold uppercase tracking-[0.3em] opacity-70 sm:block">
-                Beauty Gazette
-              </div>
-            </div>
-          </Link>
+          <div className="flex min-h-[88px] items-center justify-between px-4 sm:px-6 lg:px-8">
 
-          {/* DESKTOP LINKS */}
-          <div className="hidden flex-1 items-stretch md:flex">
-            {links.map((link, index) => (
-              <NavLink
-                key={link.path}
-                to={link.path}
-                className={({ isActive }) =>
-                  `group relative flex min-w-0 flex-1 items-center justify-center border-r border-current/10 px-2 text-[12px] font-extrabold uppercase tracking-[0.08em] transition lg:text-[13px] xl:text-[14px] ${
-                    isActive
-                      ? darkMode
-                        ? "bg-[#dfcba9]/10 text-[#dfcba9]"
-                        : "bg-[#e9dcc8]/60 text-[#8a6a43]"
-                      : "opacity-85 hover:bg-[#e9dcc8]/40 hover:opacity-100"
-                  }`
-                }
-              >
-                <span className="absolute left-3 top-2 font-display text-[9px] font-bold opacity-40 lg:text-[10px]">
-                  {String(index + 1).padStart(2, "0")}
+            <Link
+              to="/"
+              onClick={closeMenu}
+              className="group flex shrink-0 items-center gap-3.5"
+            >
+              <div className="flex h-[52px] w-[52px] items-center justify-center rounded-[12px] border border-[#302720]/20 bg-[#302720] shadow-[0_8px_25px_rgba(48,39,32,0.16)] transition-all duration-300 group-hover:-translate-y-0.5 group-hover:shadow-[0_12px_30px_rgba(48,39,32,0.22)]">
+                <span className="font-display text-[26px] font-semibold leading-none text-[#eee5d8]">
+                  G
                 </span>
+              </div>
 
-                {link.name}
-
-                <span className="absolute bottom-0 left-1/2 h-[3px] w-0 -translate-x-1/2 bg-[#a78350] transition-all duration-300 group-hover:w-12 lg:group-hover:w-14" />
-              </NavLink>
-            ))}
-          </div>
-
-          {/* DESKTOP CONTROLS */}
-          <div className="hidden items-stretch xl:flex">
-            <button
-              onClick={() =>
-                setLanguage((current) =>
-                  current === "EN" ? "AR" : "EN"
-                )
-              }
-              className="flex w-[72px] items-center justify-center gap-2 border-r border-current/10 text-[11px] font-extrabold uppercase tracking-[0.1em] transition hover:bg-[#e9dcc8]/50"
-            >
-              <FontAwesomeIcon icon={faGlobe} />
-              {language}
-            </button>
-
-            <button
-              onClick={() =>
-                setDarkMode((current) => !current)
-              }
-              className="flex w-[54px] items-center justify-center border-r border-current/10 text-base transition hover:bg-[#e9dcc8]/50"
-            >
-              <FontAwesomeIcon
-                icon={darkMode ? faSun : faMoon}
-              />
-            </button>
-
-            <Link
-              to="/profile"
-              className="flex w-[54px] items-center justify-center border-r border-current/10 text-base transition hover:bg-[#e9dcc8]/50"
-            >
-              <FontAwesomeIcon icon={faUser} />
-            </Link>
-
-            <Link
-              to="/login"
-              className={`flex items-center gap-2 px-5 text-[10px] font-extrabold uppercase tracking-[0.1em] transition ${
-                darkMode
-                  ? "bg-[#dfcba9] text-[#302720] hover:bg-white"
-                  : "bg-[#302720] text-[#faf6ef] hover:bg-[#8a6a43]"
-              }`}
-            >
-              Enter GLOW
-              <FontAwesomeIcon icon={faArrowRight} />
-            </Link>
-          </div>
-
-          {/* TABLET CONTROLS */}
-          <div className="ml-auto hidden items-center md:flex xl:hidden">
-            <Link
-              to="/profile"
-              className="flex h-full w-[56px] items-center justify-center border-l border-current/10 text-base"
-            >
-              <FontAwesomeIcon icon={faUser} />
-            </Link>
-
-            <button
-              onClick={() =>
-                setMenuOpen((current) => !current)
-              }
-              className="flex h-full w-[58px] items-center justify-center border-l border-current/10 text-lg"
-            >
-              <FontAwesomeIcon
-                icon={menuOpen ? faXmark : faBars}
-              />
-            </button>
-          </div>
-
-          {/* MOBILE MENU BUTTON */}
-          <div className="ml-auto flex md:hidden">
-            <button
-              onClick={() =>
-                setMenuOpen((current) => !current)
-              }
-              className="flex w-[64px] items-center justify-center border-l border-current/10 text-xl"
-            >
-              <FontAwesomeIcon
-                icon={menuOpen ? faXmark : faBars}
-              />
-            </button>
-          </div>
-        </div>
-
-        {/* BOTTOM EDITORIAL STRIP */}
-        <div className="flex h-8 w-full items-center justify-between border-t border-current/15 px-4 sm:px-6">
-          <span className="text-[8px] font-extrabold uppercase tracking-[0.18em] sm:text-[9px]">
-            The Beauty Edition
-          </span>
-
-          <span className="hidden text-[9px] font-bold uppercase tracking-[0.2em] opacity-60 sm:block">
-            Vol. 01 · Basra · Iraq · 2026
-          </span>
-
-          <span className="text-[8px] font-extrabold uppercase tracking-[0.18em] sm:text-[9px]">
-            Est. 2026
-          </span>
-        </div>
-      </nav>
-
-      {/* MOBILE / TABLET DROPDOWN */}
-      {menuOpen && (
-        <div
-          className={`w-full border-b-2 ${
-            darkMode
-              ? "border-[#dfcba9]/40 bg-[#17120f]"
-              : "border-[#302720]/25 bg-[#faf6ef]"
-          }`}
-        >
-          <div className="p-5">
-            {links.map((link, index) => (
-              <NavLink
-                key={link.path}
-                to={link.path}
-                onClick={() => setMenuOpen(false)}
-                className="flex items-center justify-between border-b border-current/10 py-6"
-              >
-                <div className="flex items-center gap-5">
-                  <span className="font-display text-base font-bold opacity-50">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-
-                  <span className="text-base font-extrabold uppercase tracking-[0.1em]">
-                    {link.name}
-                  </span>
+              <div className="hidden sm:block">
+                <div className="font-display text-[30px] font-semibold leading-none tracking-[-0.055em] text-[#302720]">
+                  GLOW
                 </div>
 
-                <FontAwesomeIcon icon={faArrowRight} />
-              </NavLink>
-            ))}
+                <div className="mt-2 text-[9px] font-extrabold uppercase tracking-[0.27em] text-[#76552f]">
+                  Beauty Platform
+                </div>
+              </div>
+            </Link>
 
-            <div className="mt-5 grid grid-cols-3 border border-current/10">
-              <button
-                onClick={() =>
-                  setLanguage((current) =>
-                    current === "EN" ? "AR" : "EN"
-                  )
-                }
-                className="border-r border-current/10 py-5 text-sm font-extrabold"
+            <nav className="hidden items-center rounded-[15px] border border-[#302720]/10 bg-[#f5eee4]/40 p-1.5 lg:flex">
+              {navItems.map((item) => (
+                <NavLink
+                  key={item.to}
+                  to={item.to}
+                  className="group"
+                >
+                  {({ isActive }) => (
+                    <div
+                      className={`relative rounded-[11px] px-5 py-3.5 text-[15px] font-bold transition-all duration-300 xl:px-6 ${
+                        isActive
+                          ? "bg-[#302720] text-[#f5eee4] shadow-[0_6px_20px_rgba(48,39,32,0.15)]"
+                          : "text-[#302720]/72 hover:bg-[#302720]/8 hover:text-[#302720]"
+                      }`}
+                    >
+                      {item.label}
+                    </div>
+                  )}
+                </NavLink>
+              ))}
+            </nav>
+
+            <div className="hidden items-center gap-2.5 lg:flex">
+              <Link
+                to="/login"
+                className="flex h-[52px] items-center gap-2.5 rounded-[11px] px-5 text-[14px] font-bold text-[#302720]/75 transition-all duration-300 hover:bg-[#302720]/7 hover:text-[#302720]"
               >
-                <FontAwesomeIcon
-                  icon={faGlobe}
-                  className="mr-2"
-                />
-
-                {language}
-              </button>
-
-              <button
-                onClick={() =>
-                  setDarkMode((current) => !current)
-                }
-                className="border-r border-current/10 py-5"
-              >
-                <FontAwesomeIcon
-                  icon={darkMode ? faSun : faMoon}
-                />
-              </button>
+                <FontAwesomeIcon icon={faUser} className="text-[12px]" />
+                Login
+              </Link>
 
               <Link
-                to="/profile"
-                onClick={() => setMenuOpen(false)}
-                className="flex items-center justify-center"
+                to="/register"
+                className="flex h-[52px] items-center gap-3 rounded-[11px] border border-[#76552f]/40 bg-[#9a7444] px-6 text-[12px] font-extrabold uppercase tracking-[0.09em] text-[#fffaf2] shadow-[0_8px_25px_rgba(118,85,47,0.2)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#76552f] hover:shadow-[0_12px_30px_rgba(118,85,47,0.25)]"
               >
-                <FontAwesomeIcon icon={faUser} />
+                Create Account
+                <FontAwesomeIcon icon={faArrowRight} className="text-[10px]" />
               </Link>
             </div>
 
-            <Link
-              to="/login"
-              onClick={() => setMenuOpen(false)}
-              className={`mt-4 flex items-center justify-center gap-3 py-6 text-xs font-extrabold uppercase tracking-[0.18em] ${
-                darkMode
-                  ? "bg-[#dfcba9] text-[#302720]"
-                  : "bg-[#302720] text-[#faf6ef]"
-              }`}
+            <button
+              type="button"
+              onClick={() => setMenuOpen(!menuOpen)}
+              aria-label={menuOpen ? "Close menu" : "Open menu"}
+              className="flex h-[52px] w-[52px] items-center justify-center rounded-[11px] border border-[#302720]/15 bg-[#f5eee4]/55 text-[#302720] transition-all duration-300 hover:bg-[#302720] hover:text-[#f5eee4] lg:hidden"
             >
-              Enter GLOW
-
-              <FontAwesomeIcon icon={faArrowRight} />
-            </Link>
+              <FontAwesomeIcon
+                icon={menuOpen ? faXmark : faBars}
+                className="text-[19px]"
+              />
+            </button>
           </div>
+
+          {menuOpen && (
+            <div className="border-t border-[#302720]/10 px-4 pb-5 pt-4 lg:hidden">
+              <nav className="flex flex-col gap-1.5 rounded-[14px] border border-[#302720]/10 bg-[#f5eee4]/50 p-2">
+                {navItems.map((item) => (
+                  <NavLink
+                    key={item.to}
+                    to={item.to}
+                    onClick={closeMenu}
+                  >
+                    {({ isActive }) => (
+                      <div
+                        className={`flex min-h-[58px] items-center justify-between rounded-[10px] px-5 text-[16px] font-bold transition-all duration-300 ${
+                          isActive
+                            ? "bg-[#302720] text-[#f5eee4]"
+                            : "text-[#302720]/75 hover:bg-[#302720]/8 hover:text-[#302720]"
+                        }`}
+                      >
+                        <span>{item.label}</span>
+
+                        <span
+                          className={`h-2 w-2 rounded-full ${
+                            isActive
+                              ? "bg-[#c5a477]"
+                              : "bg-transparent"
+                          }`}
+                        />
+                      </div>
+                    )}
+                  </NavLink>
+                ))}
+              </nav>
+
+              <div className="mt-3 grid grid-cols-2 gap-2.5">
+                <Link
+                  to="/login"
+                  onClick={closeMenu}
+                  className="flex h-[54px] items-center justify-center gap-2.5 rounded-[10px] border border-[#302720]/15 bg-[#f5eee4]/60 text-[14px] font-bold text-[#302720]"
+                >
+                  <FontAwesomeIcon icon={faUser} className="text-[12px]" />
+                  Login
+                </Link>
+
+                <Link
+                  to="/register"
+                  onClick={closeMenu}
+                  className="flex h-[54px] items-center justify-center gap-2 rounded-[10px] bg-[#9a7444] text-[11px] font-extrabold uppercase tracking-[0.08em] text-[#fffaf2]"
+                >
+                  Create Account
+                  <FontAwesomeIcon
+                    icon={faArrowRight}
+                    className="text-[10px]"
+                  />
+                </Link>
+              </div>
+
+              <div className="mt-3 grid grid-cols-3 overflow-hidden rounded-[11px] border border-[#302720]/10 bg-[#f5eee4]/45">
+                <Link
+                  to="/salons"
+                  onClick={closeMenu}
+                  className="flex flex-col items-center gap-2 border-r border-[#302720]/10 py-4 text-[#302720]/70 transition-colors hover:bg-[#302720]/7"
+                >
+                  <FontAwesomeIcon icon={faStore} className="text-[14px]" />
+                  <span className="text-[12px] font-bold">Salons</span>
+                </Link>
+
+                <Link
+                  to="/services"
+                  onClick={closeMenu}
+                  className="flex flex-col items-center gap-2 border-r border-[#302720]/10 py-4 text-[#302720]/70 transition-colors hover:bg-[#302720]/7"
+                >
+                  <FontAwesomeIcon icon={faScissors} className="text-[14px]" />
+                  <span className="text-[12px] font-bold">Services</span>
+                </Link>
+
+                <Link
+                  to="/bookings"
+                  onClick={closeMenu}
+                  className="flex flex-col items-center gap-2 py-4 text-[#302720]/70 transition-colors hover:bg-[#302720]/7"
+                >
+                  <FontAwesomeIcon
+                    icon={faCalendarCheck}
+                    className="text-[14px]"
+                  />
+                  <span className="text-[12px] font-bold">Bookings</span>
+                </Link>
+              </div>
+            </div>
+          )}
         </div>
-      )}
+      </div>
     </header>
   );
-};
+}
 
 export default Navbar;
