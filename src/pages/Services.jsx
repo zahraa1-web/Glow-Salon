@@ -159,7 +159,6 @@ const Services = () => {
 
   return (
     <main className="min-h-screen overflow-hidden bg-[#f7f1e6] text-[#302720]">
-      {/* HERO */}
       <section className="border-b border-[#302720]/15 px-5 pb-20 pt-36 sm:px-8 lg:px-12 xl:px-16">
         <div className="mx-auto max-w-[1700px]">
           <div className="grid gap-10 lg:grid-cols-[1fr_0.45fr] lg:items-end">
@@ -201,7 +200,6 @@ const Services = () => {
         </div>
       </section>
 
-      {/* INTRO STRIP */}
       <section className="border-b border-[#302720]/15 px-5 py-8 sm:px-8 lg:px-12 xl:px-16">
         <div className="mx-auto flex max-w-[1700px] flex-col justify-between gap-5 sm:flex-row sm:items-center">
           <div className="flex items-center gap-4">
@@ -221,7 +219,6 @@ const Services = () => {
         </div>
       </section>
 
-      {/* SERVICES */}
       <section className="px-5 py-16 sm:px-8 lg:px-12 xl:px-16">
         <div className="mx-auto max-w-[1700px]">
           <div className="grid border-t border-[#302720]/15 md:grid-cols-2">
@@ -244,9 +241,7 @@ const Services = () => {
                       : ""
                   }`}
                 >
-                  {/* CARD */}
                   <div className="bg-[#e9dcc8]/45 p-2">
-                    {/* IMAGE */}
                     <div className="relative aspect-[16/10] overflow-hidden">
                       <img
                         src={service.image}
@@ -267,7 +262,6 @@ const Services = () => {
                     </div>
                   </div>
 
-                  {/* TITLE AREA */}
                   <button
                     type="button"
                     onClick={() =>
@@ -286,7 +280,6 @@ const Services = () => {
                         </p>
                       </div>
 
-                      {/* SEPARATE PLUS AREA */}
                       <span
                         className={`flex h-12 w-12 shrink-0 items-center justify-center border transition duration-300 ${
                           isOpen
@@ -302,7 +295,6 @@ const Services = () => {
                     </div>
                   </button>
 
-                  {/* SERVICE LIST */}
                   <AnimatePresence initial={false}>
                     {isOpen && (
                       <motion.div
@@ -322,32 +314,28 @@ const Services = () => {
                         className="overflow-hidden"
                       >
                         <div className="mt-6 border-t border-[#302720]/10 pt-3">
-                          {service.items.map(
-                            (item, itemIndex) => (
-                              <Link
-                                key={item}
-                                to={createServiceLink(item)}
-                                className="group/service flex items-center justify-between border-b border-[#302720]/10 py-4 transition hover:px-2"
-                              >
-                                <div className="flex items-center gap-4">
-                                  <span className="font-display text-xs text-[#8a6a43]">
-                                    {String(
-                                      itemIndex + 1
-                                    ).padStart(2, "0")}
-                                  </span>
+                          {service.items.map((item, itemIndex) => (
+                            <Link
+                              key={item}
+                              to={createServiceLink(item)}
+                              className="group/service flex items-center justify-between border-b border-[#302720]/10 py-4 transition hover:px-2"
+                            >
+                              <div className="flex items-center gap-4">
+                                <span className="font-display text-xs text-[#8a6a43]">
+                                  {String(itemIndex + 1).padStart(2, "0")}
+                                </span>
 
-                                  <span className="text-sm font-semibold">
-                                    {item}
-                                  </span>
-                                </div>
+                                <span className="text-sm font-semibold">
+                                  {item}
+                                </span>
+                              </div>
 
-                                <FontAwesomeIcon
-                                  icon={faArrowRight}
-                                  className="text-xs text-[#8a6a43] opacity-0 transition duration-300 group-hover/service:translate-x-1 group-hover/service:opacity-100"
-                                />
-                              </Link>
-                            )
-                          )}
+                              <FontAwesomeIcon
+                                icon={faArrowRight}
+                                className="text-xs text-[#8a6a43] opacity-0 transition duration-300 group-hover/service:translate-x-1 group-hover/service:opacity-100"
+                              />
+                            </Link>
+                          ))}
                         </div>
                       </motion.div>
                     )}
@@ -359,7 +347,6 @@ const Services = () => {
         </div>
       </section>
 
-      {/* HOW IT WORKS */}
       <section className="border-y border-[#302720]/15 bg-[#e9dcc8]/35 px-5 py-20 sm:px-8 lg:px-12 xl:px-16">
         <div className="mx-auto max-w-[1700px]">
           <div className="grid gap-12 lg:grid-cols-[0.7fr_1fr]">
@@ -420,7 +407,6 @@ const Services = () => {
         </div>
       </section>
 
-      {/* CTA */}
       <section className="bg-[#302720] px-5 py-20 text-[#f7f1e6] sm:px-8 lg:px-12 xl:px-16">
         <div className="mx-auto flex max-w-[1700px] flex-col justify-between gap-10 lg:flex-row lg:items-end">
           <div>
@@ -437,7 +423,7 @@ const Services = () => {
 
           <Link
             to="/bookings"
-            className="group flex w-fit items-center gap-5 bg-[#f7f1e6] px-7 py-5 text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#302720] transition hover:bg-[#dfcba9]"
+            className="group flex w-fit items-center gap-5 rounded-[8px] border border-[#dfcba9] bg-[#dfcba9] px-7 py-5 text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#302720] shadow-[0_12px_30px_rgba(223,203,169,0.18)] transition-all duration-300 hover:-translate-y-1 hover:border-[#f0dfbd] hover:bg-[#f0dfbd] hover:shadow-[0_16px_38px_rgba(223,203,169,0.24)]"
           >
             Start Booking
 
