@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,50 +11,18 @@ import {
   faXmark,
   faCalendarCheck,
 } from "@fortawesome/free-solid-svg-icons";
+import { apiCall } from "../api";
 
-const salons = [
-  {
-    id: 1,
-    slug: "luna-beauty-lounge",
-    name: "Luna Beauty Lounge",
-    location: "Al Ashar · Basra",
-    area: "Al Ashar",
-    image: "/images/salon-export.jpg",
-    rating: "4.9",
-    reviews: 128,
-    description:
-      "A refined beauty destination for polished everyday looks and special occasions.",
-    services: ["Makeup", "Hair", "Bridal"],
-    featured: true,
-  },
-  {
-    id: 2,
-    slug: "glow-beauty-studio",
-    name: "Glow Beauty Studio",
-    location: "Al Jubaila · Basra",
-    area: "Al Jubaila",
-    image: "/images/glow-space.jpg.jpg",
-    rating: "4.8",
-    reviews: 96,
-    description:
-      "A contemporary beauty space focused on personal care, hair and makeup.",
-    services: ["Hair", "Makeup", "Beauty"],
-    featured: true,
-  },
-  {
-    id: 3,
-    slug: "velvet-beauty-house",
-    name: "Velvet Beauty House",
-    location: "Al Qibla · Basra",
-    area: "Al Qibla",
-    image: "/images/glow-beauty.jpg",
-    rating: "4.7",
-    reviews: 84,
-    description:
-      "A calm destination for nails, brows, lashes, massage and beauty rituals.",
-    services: ["Nails", "Brows", "Massage"],
-    featured: false,
-  },
+const fallbackImages = [
+  "/images/salon-export.jpg",
+  "/images/glow-space.jpg.jpg",
+  "/images/glow-beauty.jpg",
+];
+
+const fallbackServices = [
+  ["Makeup", "Hair", "Bridal"],
+  ["Hair", "Makeup", "Beauty"],
+  ["Nails", "Brows", "Massage"],
 ];
 
 const areas = ["All areas", "Al Ashar", "Al Jubaila", "Al Qibla"];
@@ -70,10 +38,89 @@ const serviceFilters = [
 ];
 
 function Salons() {
+  const [salons, setSalons] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [area, setArea] = useState("All areas");
   const [service, setService] = useState("All services");
   const [showFilters, setShowFilters] = useState(false);
+
+  useEffect(() => {
+    let mounted = true;
+
+    const loadSalons = async () => {
+      try {
+        const result = await apiCall("/salons");
+
+        if (!mounted) return;
+
+        const backendSalons = Array.isArray(result?.data)
+          ? result.data
+          : Array.isArray(result)
+          ? result
+          : [];
+
+        const formattedSalons = backendSalons.map((salon, index) => {
+          const address =
+            salon.address ||
+            salon.location ||
+            "Basra · Iraq";
+
+          const salonServices =
+            Array.isArray(salon.services) && salon.services.length > 0
+              ? salon.services.map((item) =>
+                  typeof item === "string"
+                    ? item
+                    : item.name || "Beauty"
+                )
+              : fallbackServices[index % fallbackServices.length];
+
+          return {
+            id: salon.id,
+            slug:
+              salon.slug ||
+              String(salon.name || `salon-${salon.id}`)
+                .toLowerCase()
+                .replace(/[^a-z0-9]+/g, "-")
+                .replace(/^-|-$/g, ""),
+            name: salon.name || "GLOW Salon",
+            location: address,
+            area:
+              salon.area ||
+              (address.includes("·")
+                ? address.split("·")[0].trim()
+                : address),
+            image:
+              salon.image ||
+              salon.image_url ||
+              fallbackImages[index % fallbackImages.length],
+            rating: salon.rating || "4.8",
+            reviews: salon.reviews || 0,
+            description:
+              salon.description ||
+              "A beautiful destination for your next beauty experience with GLOW.",
+            services: salonServices,
+            featured: salon.featured || false,
+          };
+        });
+
+        setSalons(formattedSalons);
+      } catch (error) {
+        console.error("Failed to load salons:", error);
+        setSalons([]);
+      } finally {
+        if (mounted) {
+          setLoading(false);
+        }
+      }
+    };
+
+    loadSalons();
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
   const filteredSalons = useMemo(() => {
     const normalizedSearch = search.trim().toLowerCase();
@@ -88,15 +135,18 @@ function Salons() {
         );
 
       const matchesArea =
-        area === "All areas" || salon.area === area;
+        area === "All areas" ||
+        salon.area.toLowerCase().includes(area.toLowerCase());
 
       const matchesService =
         service === "All services" ||
-        salon.services.includes(service);
+        salon.services.some(
+          (item) => item.toLowerCase() === service.toLowerCase()
+        );
 
       return matchesSearch && matchesArea && matchesService;
     });
-  }, [search, area, service]);
+  }, [salons, search, area, service]);
 
   const clearFilters = () => {
     setSearch("");
@@ -265,12 +315,23 @@ function Salons() {
           </div>
 
           <div className="text-[12px] font-bold text-[#302720]/45">
-            {filteredSalons.length}{" "}
-            {filteredSalons.length === 1 ? "salon" : "salons"} available
+            {loading
+              ? "Loading salons..."
+              : `${filteredSalons.length} ${
+                  filteredSalons.length === 1 ? "salon" : "salons"
+                } available`}
           </div>
         </div>
 
-        {filteredSalons.length > 0 ? (
+        {loading ? (
+          <div className="rounded-[15px] border border-[#302720]/12 bg-[#f5eee4] px-6 py-20 text-center">
+            <div className="mx-auto h-10 w-10 animate-spin rounded-full border-2 border-[#302720]/10 border-t-[#9a7444]" />
+
+            <p className="mt-5 text-[12px] font-bold text-[#302720]/45">
+              Loading beauty spaces...
+            </p>
+          </div>
+        ) : filteredSalons.length > 0 ? (
           <div className="grid gap-6 lg:grid-cols-2 xl:grid-cols-3">
             {filteredSalons.map((salon, index) => (
               <motion.article
@@ -418,7 +479,7 @@ function Salons() {
 
               <Link
                 to="/services"
-                className="mt-7 inline-flex h-[52px] items-center gap-4 rounded-[9px] border border-[#76552f]/40 bg-[#9a7444] px-6 text-[10px] font-extrabold uppercase tracking-[0.11em] text-[#fffaf2] shadow-[0_8px_25px_rgba(118,85,47,0.18)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#76552f] hover:shadow-[0_12px_30px_rgba(118,85,47,0.24)]"
+                className="mt-7 inline-flex h-[52px] items-center gap-4 rounded-[9px] border border-[#76552f]/40 bg-[#9a7444] px-6 text-[10px] font-extrabold uppercase tracking-[0.11em] text-[#fffaf2] shadow-[0_8px_25px_rgba(118,85,47,0.18)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#76552f]"
               >
                 Explore services
 

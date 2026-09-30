@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { apiCall } from "../api";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowRight,
@@ -9,15 +10,49 @@ import {
   faEye,
   faEyeSlash,
   faCheck,
+  faCircleExclamation,
 } from "@fortawesome/free-solid-svg-icons";
 
 function Register() {
   const navigate = useNavigate();
+
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleSubmit = (event) => {
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    navigate("/client-dashboard");
+
+    setError("");
+    setLoading(true);
+
+    try {
+      const result = await apiCall("/auth/register", "POST", {
+        full_name: `${firstName.trim()} ${lastName.trim()}`.trim(),
+        email: email.trim().toLowerCase(),
+        password,
+      });
+
+      if (result.token) {
+        localStorage.setItem("glow_token", result.token);
+      }
+
+      if (result.data) {
+        localStorage.setItem("glow_user", JSON.stringify(result.data));
+      }
+
+      navigate("/client-dashboard");
+    } catch (error) {
+      setError(error.message || "Unable to create your account.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -55,6 +90,11 @@ function Register() {
                     <input
                       required
                       type="text"
+                      value={firstName}
+                      onChange={(event) => {
+                        setFirstName(event.target.value);
+                        setError("");
+                      }}
                       placeholder="Your name"
                       className="w-full bg-transparent text-[13px] outline-none placeholder:text-[#302720]/30"
                     />
@@ -75,6 +115,11 @@ function Register() {
                     <input
                       required
                       type="text"
+                      value={lastName}
+                      onChange={(event) => {
+                        setLastName(event.target.value);
+                        setError("");
+                      }}
                       placeholder="Last name"
                       className="w-full bg-transparent text-[13px] outline-none placeholder:text-[#302720]/30"
                     />
@@ -96,6 +141,11 @@ function Register() {
                   <input
                     required
                     type="email"
+                    value={email}
+                    onChange={(event) => {
+                      setEmail(event.target.value);
+                      setError("");
+                    }}
                     placeholder="you@example.com"
                     className="w-full bg-transparent text-[13px] outline-none placeholder:text-[#302720]/30"
                   />
@@ -116,6 +166,11 @@ function Register() {
                   <input
                     required
                     type={showPassword ? "text" : "password"}
+                    value={password}
+                    onChange={(event) => {
+                      setPassword(event.target.value);
+                      setError("");
+                    }}
                     placeholder="Create a password"
                     className="w-full bg-transparent text-[13px] outline-none placeholder:text-[#302720]/30"
                   />
@@ -145,12 +200,28 @@ function Register() {
                 </span>
               </label>
 
+              {error && (
+                <div className="flex items-center gap-3 rounded-[9px] border border-[#915959]/20 bg-[#915959]/8 px-4 py-3 text-[11px] font-semibold text-[#915959]">
+                  <FontAwesomeIcon
+                    icon={faCircleExclamation}
+                    className="text-[12px]"
+                  />
+
+                  {error}
+                </div>
+              )}
+
               <button
                 type="submit"
-                className="flex h-[56px] w-full items-center justify-center gap-3 rounded-[10px] border border-[#76552f]/35 bg-[#9a7444] text-[11px] font-extrabold uppercase tracking-[0.12em] text-[#fffaf2] shadow-[0_10px_28px_rgba(118,85,47,0.18)] transition-all hover:-translate-y-0.5 hover:bg-[#76552f]"
+                disabled={loading}
+                className="flex h-[56px] w-full items-center justify-center gap-3 rounded-[10px] border border-[#76552f]/35 bg-[#9a7444] text-[11px] font-extrabold uppercase tracking-[0.12em] text-[#fffaf2] shadow-[0_10px_28px_rgba(118,85,47,0.18)] transition-all hover:-translate-y-0.5 hover:bg-[#76552f] disabled:cursor-not-allowed disabled:opacity-60"
               >
-                Create account
-                <FontAwesomeIcon icon={faArrowRight} className="text-[10px]" />
+                {loading ? "Creating account..." : "Create account"}
+
+                <FontAwesomeIcon
+                  icon={faArrowRight}
+                  className="text-[10px]"
+                />
               </button>
             </form>
 

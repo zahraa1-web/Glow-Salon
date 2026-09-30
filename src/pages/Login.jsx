@@ -1,3 +1,4 @@
+import { apiCall } from "../api";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -29,7 +30,6 @@ function Login() {
       description: "Book & discover",
       icon: faUser,
       route: "/client-dashboard",
-      email: "test@gmail.com",
     },
     {
       id: "salon",
@@ -37,7 +37,6 @@ function Login() {
       description: "Manage your salon",
       icon: faStore,
       route: "/salon-dashboard",
-      email: "salon@gmail.com",
     },
     {
       id: "admin",
@@ -45,7 +44,6 @@ function Login() {
       description: "Manage GLOW",
       icon: faShieldHalved,
       route: "/admin-dashboard",
-      email: "admin@gmail.com",
     },
   ];
 
@@ -56,28 +54,35 @@ function Login() {
     setPassword("");
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const selected = roles.find((role) => role.id === selectedRole);
-
-    if (!selected) {
+    if (!selectedRole) {
       setError("Please select an account type.");
       return;
     }
 
-    if (email.trim().toLowerCase() !== selected.email) {
-      setError("Invalid email or password.");
-      return;
-    }
+    try {
+      const result = await apiCall("/auth/login", "POST", {
+        email: email.trim().toLowerCase(),
+        password,
+      });
 
-    if (password !== "123456") {
-      setError("Invalid email or password.");
-      return;
-    }
+      localStorage.setItem("glow_token", result.token);
+      localStorage.setItem("glow_user", JSON.stringify(result.data));
 
-    setError("");
-    navigate(selected.route);
+      setError("");
+
+      const selected = roles.find((role) => role.id === selectedRole);
+
+      if (selected) {
+        navigate(selected.route);
+      } else {
+        navigate("/");
+      }
+    } catch (error) {
+      setError(error.message || "Invalid email or password.");
+    }
   };
 
   return (
